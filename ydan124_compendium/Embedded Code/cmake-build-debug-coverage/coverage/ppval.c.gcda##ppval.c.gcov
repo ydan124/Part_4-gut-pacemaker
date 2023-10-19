@@ -1,0 +1,56 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/ppval.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\ppval.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\ppval.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangw on 23/06/2023.
+        -:    3://
+        -:    4:
+        -:    5:
+        -:    6:
+        -:    7:/* Include Files */
+        -:    8:#include "ppval.h"
+        -:    9:#include <math.h>
+        -:   10:
+        -:   11:
+        -:   12://typedef struct {
+        -:   13://    double breaks[2];   // Starting and ending points of interval
+        -:   14://    double coefs[4];    // Coefficients for polynomial
+        -:   15://} PolynomialPiece;
+        -:   16:
+function evaluatePolynomial called 0 returned 0% blocks executed 0%
+    #####:   17:void evaluatePolynomial(const PolynomialPiece pp, const double inputPoints[], const int inputSize[2], double outputValues[], int outputSize[2]) {
+        -:   18:    double shiftedValue;
+        -:   19:    int index;
+        -:   20:    int maxIndex;
+        -:   21:
+    #####:   22:    outputSize[0] = 1;
+    #####:   23:    outputSize[1] = inputSize[1];
+    #####:   24:    maxIndex = inputSize[1] - 1;
+        -:   25:
+    #####:   26:    for (index = 0; index <= maxIndex; index++) {
+    %%%%%:   26-block  0
+    %%%%%:   26-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   27:        shiftedValue = inputPoints[index];
+        -:   28:
+    #####:   29:        if (isnan(shiftedValue)) {
+    %%%%%:   29-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   30:            shiftedValue = NAN;
+    %%%%%:   30-block  0
+        -:   31:        } else {
+    #####:   32:            shiftedValue -= pp.breaks[0]; // Shift by the start of interval
+        -:   33:            // Evaluate polynomial
+    #####:   34:            shiftedValue = shiftedValue * (shiftedValue * (shiftedValue * pp.coefs[0] + pp.coefs[1]) + pp.coefs[2]) + pp.coefs[3];
+    %%%%%:   34-block  0
+        -:   35:        }
+        -:   36:
+    #####:   37:        outputValues[index] = shiftedValue;
+    %%%%%:   37-block  0
+        -:   38:    }
+    #####:   39:}
+        -:   40:

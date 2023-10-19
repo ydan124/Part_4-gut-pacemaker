@@ -1,0 +1,12 @@
+# ninja log v5
+182	1270	7182508277934907	CMakeFiles/untitled1.dir/artifact_remove.c.obj	d9abdab2339ac680
+0	549	7182508270717506	CMakeFiles/untitled1.dir/main.c.obj	296c597c532a56ed
+217	1702	7182508282251907	CMakeFiles/untitled1.dir/ppval.c.obj	341a8070656d04cb
+143	2263	7182508287850551	CMakeFiles/untitled1.dir/NEO_transform.c.obj	ae9ce4c49d462162
+48	902	7182508274217674	CMakeFiles/untitled1.dir/artifact_detect.c.obj	8299294d81a20031
+1270	2040	7182508285629925	CMakeFiles/untitled1.dir/highpass_function.c.obj	1662059ac42e6c36
+902	2591	7182508291139869	CMakeFiles/untitled1.dir/detection_function_data.c.obj	71486400e2531d6c
+1702	2924	7182508294480576	CMakeFiles/untitled1.dir/py_c_run.c.obj	ad01211029a4a511
+550	3286	7182508298094515	CMakeFiles/untitled1.dir/lowpass_function.c.obj	cdeb8fedf14d02c9
+94	3637	7182508301595031	CMakeFiles/untitled1.dir/moving_average_1s_window.c.obj	71a75386b70ceda0
+3637	3870	7182508303857246	untitled1.exe	b9f17fd571d9566

@@ -1,0 +1,216 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/artifact_remove.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\artifact_remove.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\artifact_remove.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangwal yoge on 23/05/2023.
+        -:    3://
+        -:    4:
+        -:    5:#include "artifact_remove.h"
+        -:    6:#include <stdio.h>
+        -:    7:#include <math.h>
+        -:    8:#include <stddef.h>
+        -:    9:#include <string.h>
+        -:   10:
+        -:   11:
+        -:   12:
+        -:   13://void artifact_remove(const double window[101], double x1, double x2,
+        -:   14://                     double * output)
+        -:   15://{
+        -:   16://    double replace_data[101];
+        -:   17://    double xx_data[101];
+        -:   18://    double divdifij;
+        -:   19://    double dzdxdx;
+        -:   20://    double dzzdx;
+        -:   21://    double pp1_coefs_idx_0;
+        -:   22://    double y_idx_0;
+        -:   23://    double y_idx_0_tmp;
+        -:   24://    int dxj;
+        -:   25://    int i;
+        -:   26://    int i1;
+        -:   27://    int loop_ub;
+        -:   28://    int xx_size_idx_1;
+        -:   29://    /*  compute start and end slopes */
+        -:   30://    /*  calculate spline with sample rate at 32 Hz */
+        -:   31://    y_idx_0_tmp = window[(int)x1 - 1];
+        -:   32://    y_idx_0 = y_idx_0_tmp - window[(int)x1 - 2];
+        -:   33://    dxj = (signed char)x2 - (signed char)x1;
+        -:   34://    dzdxdx = window[(int)x2 - 1];
+        -:   35://    divdifij = (dzdxdx - y_idx_0_tmp) / (double)dxj;
+        -:   36://    dzzdx = (divdifij - y_idx_0) / (double)dxj;
+        -:   37://    dzdxdx = ((dzdxdx - window[(int)x2 - 2]) - divdifij) / (double)dxj;
+        -:   38://    pp1_coefs_idx_0 = (dzdxdx - dzzdx) / (double)dxj;
+        -:   39://    divdifij = 2.0 * dzzdx - dzdxdx;
+        -:   40://    /*  cubic spline */
+        -:   41://    /* xx = x1:1/32:x2; */
+        -:   42://    if (x2 < x1) {
+        -:   43://        xx_size_idx_1 = 0;
+        -:   44://    } else {
+        -:   45://        loop_ub = (int)(x2 - x1);
+        -:   46://        xx_size_idx_1 = loop_ub + 1;
+        -:   47://        for (i = 0; i <= loop_ub; i++) {
+        -:   48://            xx_data[i] = x1 + (double)i;
+        -:   49://        }
+        -:   50://    }
+        -:   51://    for (dxj = 0; dxj < xx_size_idx_1; dxj++) {
+        -:   52://        dzdxdx = xx_data[dxj] - (double)(signed char)x1;
+        -:   53://        replace_data[dxj] =
+        -:   54://                dzdxdx * (dzdxdx * (dzdxdx * pp1_coefs_idx_0 + divdifij) + y_idx_0) +
+        -:   55://                y_idx_0_tmp;
+        -:   56://    }
+        -:   57://    /*  output result */
+        -:   58://    memset(&output[0], 0, 101U * sizeof(double));
+        -:   59://    if (x1 - 1.0 < 1.0) {
+        -:   60://        loop_ub = 1;
+        -:   61://    } else {
+        -:   62://        loop_ub = (int)x1;
+        -:   63://    }
+        -:   64://    if (loop_ub - 2 >= 0) {
+        -:   65://        memcpy(&output[0], &window[0],
+        -:   66://               (unsigned int)(loop_ub - 1) * sizeof(double));
+        -:   67://    }
+        -:   68://    if (x1 > x2) {
+        -:   69://        i = 1;
+        -:   70://    } else {
+        -:   71://        i = (int)x1;
+        -:   72://    }
+        -:   73://    for (i1 = 0; i1 < xx_size_idx_1; i1++) {
+        -:   74://        output[(i + i1) - 1] = replace_data[i1];
+        -:   75://    }
+        -:   76://    if (x2 + 1.0 > 101.0) {
+        -:   77://        i = 0;
+        -:   78://        i1 = -1;
+        -:   79://        dxj = 0;
+        -:   80://    } else {
+        -:   81://        i = (int)x2;
+        -:   82://        i1 = 100;
+        -:   83://        dxj = (int)x2;
+        -:   84://    }
+        -:   85://    loop_ub = i1 - i;
+        -:   86://    for (i1 = 0; i1 <= loop_ub; i1++) {
+        -:   87://        output[dxj + i1] = window[i + i1];
+        -:   88://    }
+        -:   89://}
+        -:   90:
+function artifact_remove called 0 returned 0% blocks executed 0%
+    #####:   91:void artifact_remove(const double window[101], double start_pos, double end_pos,
+        -:   92:                     double * output)
+        -:   93:{
+        -:   94:    double interpolated_data[101];
+        -:   95:    double interpolation_points[101];
+        -:   96:    double intermediate_val1;
+        -:   97:    double second_derivative_start;
+        -:   98:    double second_derivative_end;
+        -:   99:    double spline_coef1;
+        -:  100:    double start_slope;
+        -:  101:    double end_slope;
+        -:  102:    double slope_difference;
+        -:  103:    int difference_in_pos;
+        -:  104:    int i;
+        -:  105:    int j;
+        -:  106:    int data_points_count;
+        -:  107:    int interpolation_size;
+        -:  108:
+        -:  109:    // Compute start and end slopes
+    #####:  110:    start_slope = window[(int)start_pos - 1] - window[(int)start_pos - 2];
+    #####:  111:    difference_in_pos = (signed char)end_pos - (signed char)start_pos;
+    #####:  112:    end_slope = window[(int)end_pos - 1];
+    #####:  113:    slope_difference = (end_slope - window[(int)start_pos - 1]) / difference_in_pos;
+    #####:  114:    second_derivative_start = (slope_difference - start_slope) / difference_in_pos;
+    #####:  115:    second_derivative_end = ((end_slope - window[(int)end_pos - 2]) - slope_difference) / difference_in_pos;
+    #####:  116:    spline_coef1 = (second_derivative_end - second_derivative_start) / difference_in_pos;
+    #####:  117:    intermediate_val1 = 2.0 * second_derivative_start - second_derivative_end;
+        -:  118:
+        -:  119:    // Cubic spline interpolation
+    #####:  120:    if (end_pos < start_pos) {
+    %%%%%:  120-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  121:        interpolation_size = 0;
+    %%%%%:  121-block  0
+        -:  122:    } else {
+    #####:  123:        data_points_count = (int)(end_pos - start_pos);
+    #####:  124:        interpolation_size = data_points_count + 1;
+    #####:  125:        for (i = 0; i <= data_points_count; i++) {
+    %%%%%:  125-block  0
+    %%%%%:  125-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  126:            interpolation_points[i] = start_pos + i;
+    %%%%%:  126-block  0
+        -:  127:        }
+        -:  128:    }
+        -:  129:
+    #####:  130:    for (j = 0; j < interpolation_size; j++) {
+    %%%%%:  130-block  0
+    %%%%%:  130-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  131:        double diff_from_start = interpolation_points[j] - (double)(signed char)start_pos;
+    #####:  132:        interpolated_data[j] =
+    #####:  133:                diff_from_start * (diff_from_start * (diff_from_start * spline_coef1 + intermediate_val1) + start_slope) +
+    #####:  134:                window[(int)start_pos - 1];
+    %%%%%:  134-block  0
+        -:  135:    }
+        -:  136:
+        -:  137:    // Prepare output data
+    #####:  138:    memset(output, 0, 101 * sizeof(double));
+    #####:  139:    int copy_start_idx = (start_pos - 1.0 < 1.0) ? 1 : (int)start_pos;
+    %%%%%:  139-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  139-block  1
+    %%%%%:  139-block  2
+        -:  140:
+    #####:  141:    if (copy_start_idx - 2 >= 0) {
+    %%%%%:  141-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  142:        memcpy(output, window, (unsigned int)(copy_start_idx - 1) * sizeof(double));
+    %%%%%:  142-block  0
+        -:  143:    }
+        -:  144:
+    #####:  145:    int interpolation_start_idx = (start_pos > end_pos) ? 1 : (int)start_pos;
+    %%%%%:  145-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  145-block  1
+    %%%%%:  145-block  2
+    #####:  146:    for (j = 0; j < interpolation_size; j++) {
+    %%%%%:  146-block  0
+    %%%%%:  146-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  147:        output[(interpolation_start_idx + j) - 1] = interpolated_data[j];
+    %%%%%:  147-block  0
+        -:  148:    }
+        -:  149:
+        -:  150:    int remaining_copy_start, remaining_copy_end, remaining_start_pos;
+    #####:  151:    if (end_pos + 1.0 > 101.0) {
+    %%%%%:  151-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  152:        remaining_copy_start = 0;
+    #####:  153:        remaining_copy_end = -1;
+    #####:  154:        remaining_start_pos = 0;
+    %%%%%:  154-block  0
+        -:  155:    } else {
+    #####:  156:        remaining_copy_start = (int)end_pos;
+    #####:  157:        remaining_copy_end = 100;
+    #####:  158:        remaining_start_pos = (int)end_pos;
+    %%%%%:  158-block  0
+        -:  159:    }
+    #####:  160:    int remaining_length = remaining_copy_end - remaining_copy_start;
+    #####:  161:    for (j = 0; j <= remaining_length; j++) {
+    %%%%%:  161-block  0
+    %%%%%:  161-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  162:        output[remaining_start_pos + j] = window[remaining_copy_start + j];
+    %%%%%:  162-block  0
+        -:  163:    }
+    #####:  164:}
+        -:  165:
+        -:  166:
+        -:  167:
+        -:  168:

@@ -1,0 +1,38 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/NEO_transform.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\NEO_transform.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\NEO_transform.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangwal yoge  on 10/08/2023.
+        -:    3://
+        -:    4:
+        -:    5:#include "NEO_transform.h"
+        -:    6:/* Function Definitions
+        -:    7: * NEO (Non-linear Energy Operator) transformation, as used by Bull et al.
+        -:    8: *  INPUT: Downscaled and filtered time series signal.
+        -:    9: *  OUTPUT: Signal with NEO transformation applied.
+        -:   10: */
+function NEO_transform called 1 returned 100% blocks executed 100%
+        1:   11:void NEO_transform(const double input[1051] , double * output )//double* output[1050]
+        -:   12:{
+        -:   13:    int i;
+     1051:   14:    for (i = 0; i < 1050; i++) {
+        1:   14-block  0
+     1051:   14-block  1
+branch  0 taken 1050
+branch  1 taken 1 (fallthrough)
+     1050:   15:        output[i] = 1.0;
+     1050:   15-block  0
+        -:   16:    }
+     1051:   17:    for (i = 0; i <1050; i++) {
+        1:   17-block  0
+     1051:   17-block  1
+branch  0 taken 1050
+branch  1 taken 1 (fallthrough)
+        -:   18:        double output_tmp;
+     1050:   19:        output_tmp = input[i + 1];
+     1050:   20:        output[i + 1] = output_tmp * output_tmp - input[i] * input[i + 2];
+     1050:   20-block  0
+        -:   21:         //printf("value =%f\r\n",output[i]);    //debugger print
+        -:   22:    }
+        1:   23:}

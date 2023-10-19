@@ -1,0 +1,101 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/lowpass_function.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\lowpass_function.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\lowpass_function.c.gcda
+        -:    0:Runs:1
+        -:    1:
+        -:    2:
+        -:    3:/* Include Files */
+        -:    4:#include "lowpass_function.h"
+        -:    5:#include <math.h>
+        -:    6:#include <string.h>
+        -:    7:#include <stddef.h>
+        -:    8:#include <stdlib.h>
+        -:    9:
+        -:   10:/* Function Definitions */
+        -:   11:/*
+        -:   12: * ------------------------- Low Pass Filter ----------------------------- %
+        -:   13: */
+function lowpass_function called 1 returned 100% blocks executed 100%
+        1:   14:void lowpass_function(const double *buffer, double threshold,
+        -:   15:                        double sampling_f, double * locs) {
+        -:   16:    static const double dv[4] = {0.0153, 0.046, 0.046, 0.0153};
+        -:   17:    static const double dv1[4] = {1.0, -1.8359, 1.2608, -0.3021};
+        -:   18:    double b_y1[1121];
+        -:   19:    double padded_buffer[1121];
+        -:   20:    int j;
+        -:   21:    int k;
+        -:   22:    (void) threshold;
+        -:   23:    (void) sampling_f;
+     1122:   24:    for (k = 0; k < 1121; k++) {
+        1:   24-block  0
+     1122:   24-block  1
+branch  0 taken 1121
+branch  1 taken 1 (fallthrough)
+     1121:   25:        padded_buffer[k] = buffer[0];
+     1121:   25-block  0
+        -:   26:    }
+        1:   27:    memcpy(&padded_buffer[60], &buffer[0], 1001U * sizeof(double));
+        -:   28:/*  padded signal */
+       62:   29:    for (k = 0; k < 61; k++) {
+        1:   29-block  0
+       62:   29-block  1
+branch  0 taken 61
+branch  1 taken 1 (fallthrough)
+       61:   30:        padded_buffer[k + 1060] = buffer[1000];
+       61:   30-block  0
+        -:   31:    }
+        -:   32:/*  Design a low-pass filter */
+        -:   33:/* [b, a] = butter(filterOrder, normalizedCutoff, 'low'); */
+        -:   34:/*  Apply the filter using the filter function */
+        1:   35:    memset(&b_y1[0], 0, 1121U * sizeof(double));
+     1122:   36:    for (k = 0; k < 1121; k++) {
+        1:   36-block  0
+     1121:   36-block  1
+     1122:   36-block  2
+branch  0 taken 1121
+branch  1 taken 1 (fallthrough)
+        -:   37:        double as;
+        -:   38:        int naxpy;
+        -:   39:        int y1_tmp;
+     1121:   40:        if (1121 - k < 4) {
+     1121:   40-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 1118
+        3:   41:            naxpy = 1120 - k;
+        3:   41-block  0
+        -:   42:        } else {
+     1118:   43:            naxpy = 3;
+     1118:   43-block  0
+        -:   44:        }
+     5599:   45:        for (j = 0; j <= naxpy; j++) {
+     1121:   45-block  0
+     5599:   45-block  1
+branch  0 taken 4478
+branch  1 taken 1121 (fallthrough)
+     4478:   46:            y1_tmp = k + j;
+     4478:   47:            b_y1[y1_tmp] += padded_buffer[k] * dv[j];
+     4478:   47-block  0
+        -:   48:        }
+     1121:   49:        if (1120 - k < 3) {
+     1121:   49-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 1118
+        3:   50:            naxpy = 1119 - k;
+        3:   50-block  0
+        -:   51:        } else {
+     1118:   52:            naxpy = 2;
+     1118:   52-block  0
+        -:   53:        }
+     1121:   54:        as = -b_y1[k];
+     4478:   55:        for (j = 0; j <= naxpy; j++) {
+     1121:   55-block  0
+     4478:   55-block  1
+branch  0 taken 3357
+branch  1 taken 1121 (fallthrough)
+     3357:   56:            y1_tmp = (k + j) + 1;
+     3357:   57:            b_y1[y1_tmp] += as * dv1[j + 1];
+     3357:   57-block  0
+        -:   58:        }
+        -:   59:    }
+        1:   60:    memcpy(&locs[0], &b_y1[60], 1001U * sizeof(double));
+        1:   61:}

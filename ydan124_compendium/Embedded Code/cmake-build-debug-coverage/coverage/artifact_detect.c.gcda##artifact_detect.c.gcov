@@ -1,0 +1,124 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/artifact_detect.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\artifact_detect.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\artifact_detect.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangwal yoge on 14/05/2023.
+        -:    3://
+        -:    4:
+        -:    5:#include "artifact_detect.h"
+        -:    6:#include "stdbool.h"
+        -:    7:#include <math.h>
+        -:    8:
+        -:    9:/* Function Definitions */
+        -:   10:
+        -:   11:/*
+        -:   12: * The function `artifact_detect` takes a window of signal and a threshold value as input.
+        -:   13: * It returns the location of an artifact (if present) in the signal.
+        -:   14: * An artifact is identified as a peak value that is greater than the provided threshold.
+        -:   15: * If no artifact is detected, the function returns NaN.
+        -:   16: */
+        -:   17:
+function artifact_detect called 20 returned 100% blocks executed 64%
+       20:   18:double artifact_detect(const double signal_window[101], double threshold)
+        -:   19:{
+        -:   20:    double absolute_signal_window[101];
+        -:   21:    double max_value;
+        -:   22:    double location;
+        -:   23:    int index;
+        -:   24:    int iterator;
+        -:   25:
+        -:   26:    // Calculating the absolute values of the signal window
+     2040:   27:    for (iterator = 0; iterator < 101; iterator++) {
+       20:   27-block  0
+     2040:   27-block  1
+branch  0 taken 2020
+branch  1 taken 20 (fallthrough)
+     2020:   28:        absolute_signal_window[iterator] = fabs(signal_window[iterator]);
+     2020:   28-block  0
+        -:   29:    }
+        -:   30:
+        -:   31:    // Checking if the first value is NaN
+       20:   32:    if (!isnan(absolute_signal_window[0])) {
+       20:   32-block  0
+call    0 returned 20
+branch  1 taken 20 (fallthrough)
+branch  2 taken 0
+       20:   33:        index = 1;
+       20:   33-block  0
+        -:   34:    } else {
+        -:   35:        bool exit_condition;
+    #####:   36:        index = 0;
+    #####:   37:        iterator = 2;
+    #####:   38:        exit_condition = false;
+        -:   39:
+        -:   40:        // Searching for the first non-NaN value
+    #####:   41:        while ((!exit_condition) && (iterator < 102)) {
+    %%%%%:   41-block  0
+    %%%%%:   41-block  1
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   41-block  2
+branch  2 never executed
+branch  3 never executed
+    #####:   42:            if (!isnan(absolute_signal_window[iterator - 1])) {
+    %%%%%:   42-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   43:                index = iterator;
+    #####:   44:                exit_condition = true;
+    %%%%%:   44-block  0
+        -:   45:            } else {
+    #####:   46:                iterator++;
+    %%%%%:   46-block  0
+        -:   47:            }
+        -:   48:        }
+        -:   49:    }
+        -:   50:
+        -:   51:    // Finding the maximum value in the absolute signal window and its index
+       20:   52:    if (index == 0) {
+       20:   52-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 20
+    #####:   53:        max_value = absolute_signal_window[0];
+    #####:   54:        index = 1;
+    %%%%%:   54-block  0
+        -:   55:    } else {
+        -:   56:        int i;
+       20:   57:        max_value = absolute_signal_window[index - 1];
+       20:   58:        i = index + 1;
+     2020:   59:        for (iterator = i; iterator < 102; iterator++) {
+       20:   59-block  0
+     2000:   59-block  1
+     2020:   59-block  2
+branch  0 taken 2000
+branch  1 taken 20 (fallthrough)
+        -:   60:            double current_value;
+     2000:   61:            current_value = absolute_signal_window[iterator - 1];
+     2000:   62:            if (max_value < current_value) {
+     2000:   62-block  0
+branch  0 taken 157 (fallthrough)
+branch  1 taken 1843
+      157:   63:                max_value = current_value;
+      157:   64:                index = iterator;
+      157:   64-block  0
+        -:   65:            }
+        -:   66:        }
+        -:   67:    }
+        -:   68:
+        -:   69:    // Checking if the maximum value is greater than the threshold
+       20:   70:    if (max_value > threshold) {
+       20:   70-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 20
+    #####:   71:        location = index;
+    %%%%%:   71-block  0
+        -:   72:    } else {
+       20:   73:        location = NAN; // If no artifact is detected, assign NaN to location
+       20:   73-block  0
+        -:   74:    }
+        -:   75:
+       20:   76:    return location;
+       20:   76-block  0
+        -:   77:}

@@ -1,0 +1,47 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/moving_average_1s_window.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\moving_average_1s_window.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\moving_average_1s_window.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangwal yoge on 13/04/2023.
+        -:    3://
+        -:    4:
+        -:    5:#include <string.h>
+        -:    6:#include "moving_average_1s_window.h"
+        -:    7:
+        -:    8:
+        -:    9:/* Function Definitions */
+        -:   10:/*
+        -:   11: * MOVING_AVERAGE_1S_WINDOW applies a moving average filter to the input signal, using a window of width 1 second.
+        -:   12: *  INPUT:    input_signal, the input signal as a 1xN row vector
+        -:   13:             sample_rate, the sample rate of the input signal in Hz
+        -:   14:    OUTPUT:   output_signal, the filtered signal as a 1xN row vector
+        -:   15: */
+function moving_average_1s_window called 1 returned 100% blocks executed 100%
+        1:   16:void moving_average_1s_window(const double input_signal[1050],int N, double sample_rate, double *output)   //double output[N] and Nis length of input signal 1050 in our case
+        -:   17:{
+        1:   18:    int time = 1; // second
+        1:   19:    int M = sample_rate * time; // size of window as number of points
+        -:   20:    //memset(&output[0], 0, 1050U * sizeof(double)); /*  prepare vectors */
+        -:   21:    // Calculate moving average
+     1020:   22:    for (int i = 0; i <=(1050 - M); i++) {
+        1:   22-block  0
+     1020:   22-block  1
+branch  0 taken 1019
+branch  1 taken 1 (fallthrough)
+     1019:   23:        double sum = 0.0;
+    33627:   24:        for (int j = 0; j < M; j++) {
+     1019:   24-block  0
+    33627:   24-block  1
+branch  0 taken 32608
+branch  1 taken 1019 (fallthrough)
+    32608:   25:                sum = sum + input_signal[i + j];
+    32608:   25-block  0
+        -:   26:        }
+     1019:   27:         output[i]= sum / M;
+     1019:   27-block  0
+        -:   28:       // printf("value =%f\r\n",output);    //debugger print
+        -:   29:    }
+        1:   30:}
+        -:   31:
+        -:   32:

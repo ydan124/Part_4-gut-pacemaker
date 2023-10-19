@@ -1,0 +1,26 @@
+# Compiler to use
+CC=gcc
+
+# Compilation flags, e.g. optimization, warnings etc.
+CFLAGS=-O2 -Wall
+
+# Linker flags
+LDFLAGS=
+
+# List of source files
+SOURCES=NEO_transform.c artifact_detect.c artifact_remove.c moving_average_1s_window.c ppval.c main.c
+OBJECTS=$(SOURCES:.c=.o)
+
+# Target executable name
+EXECUTABLE=my_program
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS) $(EXECUTABLE)

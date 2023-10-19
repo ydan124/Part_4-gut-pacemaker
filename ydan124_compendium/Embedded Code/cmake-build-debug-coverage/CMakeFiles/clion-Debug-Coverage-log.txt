@@ -1,0 +1,4 @@
+"C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.1.4/bin/ninja/win/x64/ninja.exe" -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G Ninja -S D:\700A\GES_exp\untitled1 -B D:\700A\GES_exp\untitled1\cmake-build-debug-coverage
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/700A/GES_exp/untitled1/cmake-build-debug-coverage

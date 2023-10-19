@@ -1,0 +1,83 @@
+        -:    0:Source:D:/700A/GES_exp/untitled1/highpass_function.c
+        -:    0:Graph:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\highpass_function.c.gcno
+        -:    0:Data:D:\700A\GES_exp\untitled1\cmake-build-debug-coverage\CMakeFiles\untitled1.dir\highpass_function.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by dangw on 15/09/2023.
+        -:    3://
+        -:    4:
+        -:    5:#include "highpass_function.h"
+        -:    6:
+        -:    7:/* Include Files */
+        -:    8:#include "highpass_function.h"
+        -:    9:#include <string.h>
+        -:   10:
+function highpass_function called 1 returned 100% blocks executed 100%
+        1:   11:void highpass_function(const double * input_signal, double * output_signal) {  //output_signal and input_signal 1001 and  1051
+        -:   12:    static const double filter_cofficients[51] = {
+        -:   13:            -0.0078873991649782114, -0.0088374894538831624, -0.009825399571889399,
+        -:   14:            -0.010845874310498974, -0.011893143176389873, -0.012960967715976924,
+        -:   15:            -0.014042695472615987, -0.015131320003959045, -0.016219546297298826,
+        -:   16:            -0.017299860839371135, -0.018364605525267575, -0.019406054529973144,
+        -:   17:            -0.020416493216557325, -0.021388298118020163, -0.022314017005855193,
+        -:   18:            -0.023186448047976, -0.02399871706200225, -0.024744351887050552,
+        -:   19:            -0.025417352927956868, -0.026012258969899789, -0.026524207418127457,
+        -:   20:            -0.0269489881861568, -0.027283090535472156, -0.027523742259296751,
+        -:   21:            -0.027668940701191743, 0.97228252479533084, -0.027668940701191743,
+        -:   22:            -0.027523742259296751, -0.027283090535472149, -0.0269489881861568,
+        -:   23:            -0.026524207418127457, -0.026012258969899789, -0.025417352927956868,
+        -:   24:            -0.024744351887050538, -0.023998717062002246, -0.023186448047976004,
+        -:   25:            -0.022314017005855193, -0.021388298118020163, -0.020416493216557325,
+        -:   26:            -0.019406054529973144, -0.018364605525267572, -0.017299860839371135,
+        -:   27:            -0.016219546297298826, -0.015131320003959045, -0.014042695472615987,
+        -:   28:            -0.012960967715976924, -0.011893143176389873, -0.010845874310498976,
+        -:   29:            -0.0098253995718894, -0.0088374894538831624, -0.0078873991649782114};
+        -:   30:    double highpass_signal[1151];
+        -:   31:    double padded_lowpass[1101];
+        -:   32:    /*  ------------------------- High Pass Filter ---------------------------- %
+        -:   33:     */
+        -:   34:    /* Load highpass kernel */
+        -:   35:    /*  Create new variables in the returned structure from those fields. */
+        -:   36:    /* highpassData = importfile('fir_51.mat');  % Use importfile function to load
+        -:   37:     * data */
+        -:   38:    /*  Extract the field from the structure */
+        -:   39:    /*  Filter info: w = 0.32Hz, windowed sinc FIR */
+     1102:   40:    for (int k = 0; k < 1101; k++) {
+        1:   40-block  0
+     1102:   40-block  1
+branch  0 taken 1101
+branch  1 taken 1 (fallthrough)
+     1101:   41:        padded_lowpass[k] = input_signal[0];
+     1101:   41-block  0
+        -:   42:    }
+        1:   43:    memcpy(&padded_lowpass[50], &input_signal[0], 1001U * sizeof(double));
+       52:   44:    for (int k = 0; k < 51; k++) {
+        1:   44-block  0
+       52:   44-block  1
+branch  0 taken 51
+branch  1 taken 1 (fallthrough)
+       51:   45:        padded_lowpass[k + 1050] = input_signal[1000];
+       51:   45-block  0
+        -:   46:    }
+        -:   47:    /*  padded signal */
+        1:   48:    memset(&highpass_signal[0], 0, 1151U * sizeof(double));
+       52:   49:    for (int k = 0; k < 51; k++) {
+        1:   49-block  0
+       51:   49-block  1
+       52:   49-block  2
+branch  0 taken 51
+branch  1 taken 1 (fallthrough)
+    56202:   50:        for (int b_k = 0; b_k < 1101; b_k++) {
+       51:   50-block  0
+    56202:   50-block  1
+branch  0 taken 56151
+branch  1 taken 51 (fallthrough)
+        -:   51:            int highpass_signal_tmp;
+    56151:   52:            highpass_signal_tmp = k + b_k;
+    56151:   53:            highpass_signal[highpass_signal_tmp] +=filter_cofficients[k] * padded_lowpass[b_k];
+    56151:   53-block  0
+        -:   54:        }
+        -:   55:    }
+        -:   56:    /*  filtering */
+        1:   57:    memcpy(&output_signal[0], &highpass_signal[50], 1051U * sizeof(double)); // remove padding
+        1:   58:}
